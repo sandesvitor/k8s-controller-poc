@@ -1,0 +1,3 @@
+manifests/secrets.yaml
+k8s-controller-poc
+kubeconfig.yaml

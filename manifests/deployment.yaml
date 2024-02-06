@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k8s-controller-poc
+  name: k8s-controller-poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-controller-poc
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: k8s-controller-poc
+    spec:
+      containers:
+      - image: sandesvitor/k8s-controller-poc:0.1.4
+        name: k8s-controller-poc
+        resources: {}
+        volumeMounts:
+        - name: keys
+          mountPath: /root/.minikube
+      volumes:
+      - name: keys
+        secret:
+          secretName: keys
+          items:
+          - key: ca
+            path: ca.crt
+          - key: clientCrt
+            path: profiles/minikube/client.crt
+          - key: clientKey
+            path: profiles/minikube/client.key
+status: {}
